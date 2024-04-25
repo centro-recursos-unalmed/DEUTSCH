@@ -1,0 +1,439 @@
+    
+    preloader
+    {
+        position: absolute;
+        /*-webkit-perspective: 1000;*/
+        display: block;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: #ccc;
+        background: -webkit-linear-gradient(top, #fff, #aaa);
+        background: -moz-linear-gradient(top, #fff, #aaa);
+    }
+    
+    preloader div
+    {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 400px;
+        height: 120px;
+        margin-top: -60px;
+        margin-left: -200px;
+        text-align: center;
+    }
+
+    preloader div img
+    {
+        padding-bottom: 20px;
+    }   
+    
+    .loadergif
+    {
+        background: url('../media/images/loader.gif') center center no-repeat #ffffff;
+    }
+
+
+    /* ------------------------------------------------------- */
+    
+    body
+    {
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        font-family: 'Source Sans Pro', 'Helvetica', 'Arial', sans-serif;
+        font-size: 12px;
+    }        
+    
+    html 
+    {
+        -webkit-text-size-adjust:none
+    }
+    
+    bookcontent
+    {
+        position: absolute;
+        left: 0px;
+        top: 0px;                
+        width: 100%;
+        height: 100%;
+        padding: 0px;
+        overflow: hidden;
+        background: -moz-linear-gradient(top, #ccc, #fff);
+        background: -webkit-linear-gradient(top, #ccc, #fff);   
+        /* background: url('../media/images/ruler_v.jpg') top left no-repeat #ffffff; */
+    }
+    
+    bookholder
+    {
+        position: absolute;
+        display: block;
+        width: 200px;
+        height: 200px;
+        /*-webkit-perspective: 1000;*/
+        
+        /*
+        background-color: #aaa;
+        */
+    }
+    
+    book
+    {
+        display: block;
+        width: 400px;
+        height: 300px;
+        left: 50px;
+        top: 50px;
+        position: absolute;
+        overflow: hidden;
+        background-color: #ffffff;
+        
+        -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+        -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+        box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+        
+        /*-webkit-perspective: 1000;*/
+        -webkit-transform-origin: 0 0;
+        -moz-transform-origin: 0 0;
+
+    }
+    
+    book page
+    {
+        overflow: hidden;
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        /*-webkit-perspective: 1000;*/
+    }
+    
+    lp, rp
+    {
+        width: 50%;
+        height: 100%;
+        display: block;
+        position: absolute;
+        -webkit-perspective: 1000;
+    }
+    
+    rp
+    {
+        left: 50%;
+    }
+        
+    small, big, max
+    {
+        width: 100%;
+        height: 100%;
+        display: block;
+        position: absolute;
+        opacity: 0;        
+        background-repeat: no-repeat;
+        background-size: 100%;
+        /*-webkit-perspective: 1000;*/
+        
+    }
+       
+    page num
+    {
+        display: block;
+        position: absolute;
+        left: 10%;
+        top: 10%;
+        font-size: 36px;
+    }
+    
+    book gradient
+    {                
+        position: absolute;
+        width: 10%;
+        height: 100%;
+        left: 45%;
+        display: block;    
+        background-image: -moz-linear-gradient(left center, rgba(0, 0, 0, 0.0) 0%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.0) 100%);
+        background: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(0,0,0,0.0)), color-stop(0.5, rgba(0,0,0,0.15)), to(rgba(0,0,0,0.0))) no-repeat;
+    }
+    
+    block
+    {
+        position: absolute;
+        left: 0px;
+        top: 0px;                
+        width: 100%;
+        height: 100%;
+        z-index: 98;
+        display: none;
+        background: rgba(0, 0 , 0, 0);
+    }
+    
+    /* ------------------------------------------------------- */
+
+    menubar
+    {
+        display: block;
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        width: 100%;
+        height: 50px;
+        background: url('../media/images/sprite.png') 0px -250px repeat-x;
+        /*
+        background: -webkit-linear-gradient(top, #ddd, #aaa);
+        background: -moz-linear-gradient(top, #ddd, #aaa);
+        background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#aaa));
+        -moz-box-shadow: 0px 0px 6px rgba(0,0,0,0.6);
+        -webkit-box-shadow: 0px 0px 6px rgba(0,0,0,0.6);
+        */
+    }
+    
+    menubar.hidden
+    {
+        display: none;
+    }
+    
+    info
+    {
+        position: absolute;
+        display: none;
+        left: 20px;
+        top: 20px;
+        color: #fff;
+    }
+
+    /* ------------------------------------------------------- */
+    
+    menus
+    {
+        position: absolute;
+        top: 8px;
+        left: 20px;
+        display: block;
+        margin: 0px;
+        padding: 0px;
+        
+    }
+    
+    menu
+    {
+        top: 0px;
+        position: relative;
+        margin: 0px;
+        padding: 0px;
+        display: block;
+        -moz-box-shadow: 0px 0px 14px rgba(0,0,0,0.6);
+        -webkit-box-shadow: 0px 0px 14px rgba(0,0,0,0.6);
+        background: -webkit-linear-gradient(top, #424242, #1e1e1e);
+        background: -moz-linear-gradient(top, #424242, #1e1e1e);
+        background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#424242), to(#1e1e1e));
+    }
+    
+    menuentry, menuhead
+    {
+        display: block;
+        color: #ccc;
+        font-size: 14px;
+        text-decoration: none;
+        border: none;
+    }
+            
+    menuhead
+    {   
+        position: absolute;
+        top: 0px;
+        height: 28px;
+        margin: 0px;
+        padding: 12px 12px 0px 12px;   
+    }    
+    
+    menuentries
+    {
+        display: none;
+    }
+    
+    menuentry
+    {
+        display: block;
+        height: 24px;
+        margin: 0px;
+        padding: 7px 12px 1px 12px;   
+        /*background: rgba(50, 50, 50, 1.0);*/
+        border-top: 1px solid #555;
+        border-bottom: 1px solid #000;
+    }
+    
+    menuentry:hover
+    {
+        color: #ddd;
+        background: #1e1e1e;
+        border-top: 1px solid #1e1e1e;
+    }
+
+    /* ------------------------------------------------------- */
+    
+    navi
+    {
+        display: block;
+        position: absolute;
+        width: 260px;
+        height: 40px;
+        left: 50%;
+        bottom: 0;
+        margin-left: -130px;
+        padding: 0 0 0 10px;        
+        background: url('../media/images/sprite.png');
+        background-repeat: no-repeat;
+        background-position: 0px -210px;
+    }
+    
+    navi.zoomactive
+    {
+        height: 110px;
+        bottom: 40px;    
+        background-position: 0px 0px;
+        padding: 10px 0 0 10px;
+    }
+    
+    navi first, navi prev, navi next, navi last, zoom-min, zoom-max, sliderarea, slider, zoomswitch
+    {
+        width: 40px;
+        height: 40px;
+        display: block;
+        float: left;
+        overflow: hidden;
+        background-image: url('../media/images/sprite.png');
+	    background-repeat: no-repeat;	
+    }
+    
+    navi span
+    {
+        width: 80px;
+        height: 28px;
+        display: block;
+        float: left;
+        color: #ccc;
+        font-size: 14px;
+        padding-top: 11px;
+        text-align: center;
+    }        
+    
+    first       { background-position: -10px -120px;}
+    .firstover { background-position: -10px -160px;}
+    prev        { background-position: -50px -120px;}
+    .prevover  { background-position: -50px -160px;}
+    
+    next        { background-position: -90px -120px;}
+    .nextover  { background-position: -90px -160px;}
+    last        { background-position: -130px -120px;}
+    .lastover  { background-position: -130px -160px;}
+    
+    /* ------------------------------------------------------- */
+    
+    zoomswitch
+    {
+        position: absolute;
+        float: none;
+        right: 0px;
+        bottom: 0px;
+	    background-position: -210px -120px;
+	}
+    zoom-min {background-position: -170px -120px;}
+    zoom-max {background-position: -210px -120px;}
+	
+	.zoomswitchover {background-position: -210px -160px;}
+	.zoomin {background-position: -210px -120px;}
+	.zoomout {background-position: -170px -120px;}
+    .zoom-minover {background-position: -170px -160px;}
+    .zoom-maxover {background-position: -210px -160px;}
+    
+    sliderhandles
+    {
+        display: block;
+        position: absolute;
+        left: 20px;
+        top: 60px;
+        width: 260px;
+        height: 40px;
+    }
+    
+    sliderarea
+    {
+        width: 140px;
+        background: none;
+    }
+    
+    slider
+    {
+        float: none;
+        position: relative;
+        left: 0px;
+        top: 0px;
+        background-position: -250px -120px;
+    }
+    .sliderover {background-position: -250px -160px;}
+    
+    .navirollover
+    {
+        background-color: #dddddd;
+    }
+        
+    /* ------------------------------------------------------- */
+    
+    @media screen and (orientation:portrait) 
+    {
+        lp, rp
+        {
+            width: 100%;
+            position: absolute;
+        } 
+        rp
+        {
+            left: 0px;
+        }
+        book gradient
+        {
+            display: none;
+        }
+    }
+
+    @media screen and (orientation:landscape) 
+    {
+        
+    }
+    
+    @media screen and (max-width: 700px)
+    {
+        menus
+        {
+            display: none;
+        }
+    }
+    
+    @media screen and (max-width: 600px), screen and (max-height: 400px)
+    {  
+        navi.zoomactive
+        {
+            height: 40px;
+            bottom: 0px;    
+            background-position: 0px -210px;
+            padding: 0 0 0 10px;
+        }
+        menubar.hidden
+        {
+            display: block;
+        }
+    }
+    
+    @media screen and (max-width: 318px)
+    {
+        zoomswitch
+        {
+            display: none;
+        }
+    }
+    
+    
+        
+    

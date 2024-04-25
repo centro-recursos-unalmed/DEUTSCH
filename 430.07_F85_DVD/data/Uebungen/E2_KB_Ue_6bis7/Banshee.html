@@ -1,0 +1,443 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!--  BEGIN Browser History required section -->
+<link rel="stylesheet" type="text/css" href="history/history.css" />
+<!--  END Browser History required section -->
+
+<title>studio [21] A1, interaktive Übungen</title>
+<script src="../javascript/AC_OETags.js" language="javascript"></script>
+<script src="../javascript/SCORM_API_wrapper.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+// SCORM-Adaptor für ERW-Autorentool
+
+var g_docLoaded = false;
+var g_smartLoaded = false;
+var g_smartObjExist = true;
+var g_scorm = pipwerks.SCORM;
+var g_lmsConnected = false;
+var g_firstCall = false;
+var g_sessionStart;
+var g_creditValue;
+var g_suspendData;
+var g_lessonStatus;
+var g_lessonLocation;
+var g_scoreMax;
+var g_learnerID;
+var g_learnerName;
+
+function handleError(msg)
+{
+   //alert(msg);
+   //window.close();
+}
+
+function prepareSessionTime(t)
+{
+	var s = Math.round(t);
+	var rs = s % 60;
+	var m = Math.abs(Math.round((s - 30) / 60));
+	var rm = m % 60;
+	var h = Math.abs(Math.round((m - 30) / 60));
+	var rh = '000' + h;
+	return rh.substring(rh.length-4, rh.length) + ':' + (rm < 10 ? '0' + rm : rm) + ':' + (rs < 10 ? '0' + rs : rs);
+}
+
+function initCourse()
+{	
+   // scorm.init returns a boolean
+   g_scorm.handleCompletionStatus = false;
+   g_scorm.handleExitMode = true;
+   // Scorm-Version 2004 wird für "progress_measure" benötigt
+   //g_scorm.version = "2004";
+   g_lmsConnected = g_scorm.init();
+   	   
+   // If the scorm.init function succeeded...
+   if (g_lmsConnected)
+   {
+		// Die Startzeit der Session merken
+		var d = new Date();
+		g_sessionStart = d.getTime();
+		// Bei "no-credit" wird final "completed", bei "credit" wird "passed" gesetzt.
+	    g_creditValue = g_scorm.get("cmi.core.credit");
+	    // Der Status wird beim ersten Aufruf von "not attempted" auf "incomplete" gesetzt.
+	    g_lessonStatus = g_scorm.get("cmi.core.lesson_status");
+		if (g_lessonStatus == "not attempted")
+		{
+			g_scorm.set("cmi.core.lesson_status", "incomplete");
+			g_scorm.set("cmi.core.lesson_location", "");
+			g_scorm.set("cmi.suspend_data", "");
+			g_scorm.save();
+	    	g_lessonStatus = "incomplete";
+	    	g_lessonLocation = "";
+	    	g_suspendData = "";
+	    	g_firstCall = true;
+		}
+		else
+		{
+			// Hier wird die zuletzt aufgerufene Seite gemerkt.
+			g_lessonLocation = g_scorm.get("cmi.core.lesson_location");
+			// Der Zustand der einzelnen SMART-Uebungen wird in einem String-Array gehalten.
+			g_suspendData = g_scorm.get("cmi.suspend_data");
+	    	g_firstCall = false;
+		}
+		// Die Punkte werden nur abgefragt und nicht weiter verwendet.
+		g_scoreMax = g_scorm.get("cmi.core.score.max");
+		// Die eindeutige ID des Lerners
+	  	g_learnerID = g_scorm.get("cmi.core.student_id");
+		// Der Name des Lerners
+		g_learnerName = g_scorm.get("cmi.core.student_name");
+   }        
+   // If the course couldn't connect to the LMS for some reason...
+   else
+   {	   
+      // ... let's alert the user
+      handleError("Error: Course could not connect with the LMS");	   
+   }	   
+}
+
+function setComplete()
+{
+   // If the lmsConnection is active...
+   if (g_lmsConnected)
+   {
+   		// Lesson-Status ans LMS übermitteln
+   		g_scorm.set("cmi.core.lesson_status", g_lessonStatus);
+    	// Die Lerndauer bestimmen und dem LMS ?tteln.
+		var d = new Date();
+		var sessionStop = d.getTime();
+		var v = prepareSessionTime((sessionStop - g_sessionStart) / 1000);
+		//g_scorm.set("cmi.core.session_time", v);
+				g_scorm.save();
+      	// ... disconnect from the LMS, we don't need to do anything else.
+      	g_scorm.quit();	      
+   }
+   // If the course isn't connected to the LMS for some reason...
+   else
+   {	   
+      	// alert the user and close the course window
+      	handleError("Error: Course is not connected to the LMS");	   
+   }	
+}
+		
+function ConnectToLMS()
+{
+	if (g_smartObjExist && g_smartLoaded && g_docLoaded && !g_lmsConnected)
+	{
+		initCourse();
+		if (g_lmsConnected)
+		{
+			var smart = document.getElementById('Banshee');
+								
+			if (g_firstCall == false)
+			{ 
+				// Daten in das Global Binc schreiben					
+			// smart.SmartExecute(-2, 0, "SCORM/INPUT/cmi.suspend_data", String(g_suspendData));
+				// Global Command senden, um die Daten aus dem Global Binc abzuholen
+			//smart.SmartExecute(100001, 2, "", "");
+				// Zur letzten bearbeiteten Seite navigieren
+			//	if (g_lessonLocation != "")
+			//	{
+			//		if (g_lessonLocation != "0")
+			//		{
+						// Global Navigation senden
+			//			smart.SmartExecute(-15, parseInt(g_lessonLocation), "", "");
+			//		}
+			//	}
+			}
+		}
+	}
+}
+
+function SmartLogMessage(logMessage)
+{
+	var strMessage = String(logMessage);
+	var cnt;
+	var strTemp;
+
+	if (strMessage == 'scorm::cmi.core.lesson_status=completed')
+	{
+		g_lessonStatus = "completed"; // save it for later
+	}
+	if ((strMessage == "SCRIPT>>scorm::init") || (strMessage == "scorm::init"))
+	{
+		g_smartLoaded = true;
+		ConnectToLMS();
+	}
+	else if (g_lmsConnected)
+	{
+		var smartLog = new Object();
+		var scormFunc = "";
+		var scormParam = "";
+		var bSmartMsg = false;
+		if (strMessage.indexOf('SCRIPT>>scorm::') == 0)
+		{
+			strMessage = strMessage.slice(15);
+			bSmartMsg = true;
+		}
+		else if (strMessage.indexOf('scorm::') == 0)
+		{
+			strMessage = strMessage.slice(7);
+			bSmartMsg = true;
+		}
+		if (bSmartMsg)
+		{
+			smartLog = strMessage.split("=");
+			scormFunc = smartLog[0];
+			scormParam = smartLog[1];
+			if (scormFunc == "cmi.core.lesson_status")
+			{//alert("scormParam = " + scormParam);
+				// Vermeiden, dass der lesson_status auf "not attempted" gesetzt wird.
+				if (scormParam != "not attempted")
+				{
+					g_scorm.set(scormFunc, scormParam);
+				}
+			}
+			else if (scormFunc == "cmi.core.session_time")
+			{
+				g_scorm.set(scormFunc, prepareSessionTime(scormParam));
+//alert(scormFunc + ">>>>" + scormParam);				
+			}	
+			else if (scormFunc == "cmi.core.lesson_location")
+			{
+				g_scorm.set(scormFunc, scormParam);
+//alert(scormFunc + ">>>>" + scormParam);				
+			}	
+			else if (scormFunc == "cmi.core.score.max")
+			{
+				g_scorm.set(scormFunc, scormParam);
+//alert(scormFunc + ">>>>" + scormParam);				
+			}	
+			else if (scormFunc == "cmi.core.score.raw")
+			{
+				g_scorm.set(scormFunc, scormParam);
+//alert(scormFunc + ">>>>" + scormParam);				
+			}	
+			else if (scormFunc == "cmi.progress_measure")
+			{
+				//g_scorm.set(scormFunc, scormParam); // nur für SCORM 2004
+//alert(scormFunc + ">>>>" + scormParam);				
+			}
+			else if (scormFunc == "end")
+			{
+				// Daten sichern
+				g_scorm.save();
+//alert(scormFunc + ">>>>" + scormParam);				
+			}
+			else if (scormFunc == "finish")
+			{			
+				// SCORM beenden
+				if (g_lmsConnected)
+				{
+					setComplete();
+				}
+//alert(scormFunc + ">>>>" + scormParam);				
+			}
+			else if (scormFunc.indexOf("cmi.objectives.") == 0 && scormFunc.indexOf(".id") > -1)
+				{
+					strTemp = makeObjectiveIdFriendly(scormParam);//alert("vorher:\n"+scormParam+"\n\nnachher:\n"+strTemp);
+					g_scorm.set(scormFunc, strTemp);
+					//alert("g_scorm.set("+scormFunc+", "+strTemp+");");
+				}
+			else if (scormFunc.indexOf("cmi.") == 0)
+				{
+					// alles andere, was mit "cmi." beginnt: einfach durchreichen
+					g_scorm.set(scormFunc, scormParam);
+					//alert("!!! g_scorm.set("+scormFunc+", "+scormParam+");");
+				}
+		}
+	}
+}
+
+function makeObjectiveIdFriendly(strOld)
+{
+	var strNew;
+	
+	strNew = myTransform(strOld, " ‚ƒ„†‡ˆ‰Š‹Ž‘’“”•–—˜š›žŸ¡¤¥¦¨ª«¬­¯²³´¶·¸¹º»¿ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖ×ØÙÚÛÜÝàáâãäåçèéêëìíîïñòóôõö÷øùúûüý", "_,f\"+#^%S<Z''\"\"*--~s>zY!xY|\"a\"---23'_*,10\"?AAAAAACEEEEIIIINOOOOO*OUUUUYaaaaaaceeeeiiiinooooo/ouuuuy");
+	strNew = strNew.replace(/€/g, "Euro");
+	strNew = strNew.replace(/…/g, "...");
+	strNew = strNew.replace(/Œ/g, "CE");
+	strNew = strNew.replace(/™/g, "(TM)");
+	strNew = strNew.replace(/œ/g, "oe");
+	strNew = strNew.replace(/¢/g, "Cent");
+	strNew = strNew.replace(/£/g, "Pfund");
+	strNew = strNew.replace(/§/g, "Paragraph");
+	strNew = strNew.replace(/©/g, "(C)");
+	strNew = strNew.replace(/®/g, "(R)");
+	strNew = strNew.replace(/°/g, "Grad");
+	strNew = strNew.replace(/±/g, "+-");
+	strNew = strNew.replace(/µ/g, "micro");
+	strNew = strNew.replace(/¼/g, "1/4");
+	strNew = strNew.replace(/½/g, "1/2");
+	strNew = strNew.replace(/¾/g, "3/4");
+	strNew = strNew.replace(/Æ/g, "AE");
+	strNew = strNew.replace(/Ð/g, "Th");
+	strNew = strNew.replace(/Þ/g, "Th");
+	strNew = strNew.replace(/ß/g, "ss");
+	strNew = strNew.replace(/æ/g, "ae");
+	strNew = strNew.replace(/ð/g, "th");
+	strNew = strNew.replace(/þ/g, "th");
+	
+	return strNew;
+}
+
+function myTransform(strOld, strReplace, strWith)
+{
+	var strNew = "";
+	var cnt1, cnt2;
+	var bFound;
+	
+	for (cnt1 = 0; cnt1 < strOld.length; cnt1 ++)
+	{
+		bFound = false;
+		for (cnt2 = 0; cnt2 < strReplace.length; cnt2++)
+		{
+			if (strOld.charAt(cnt1) === strReplace.charAt(cnt2))
+			{
+				bFound = true;
+				strNew += strWith.charAt(cnt2);
+				break;
+			}
+		}
+		if (!bFound)
+		{
+			strNew += strOld.charAt(cnt1);
+		}
+	}
+	
+	return strNew;
+}
+
+function DoDocLoaded()
+{
+	//document.getElementById('script_output').value = "";
+	g_docLoaded = true;
+	ConnectToLMS();
+}
+	
+function DoBeforeDocUnload()
+{
+	// Seite wird geschlossen
+	if (g_smartObjExist)
+	{
+		// Den Übungsstatus von SMART erfragen
+		//var smart = document.getElementById('Banshee');
+		//smart.SmartExecute(28000, 1, "", "");
+	}
+}
+
+function DoDocUnload()
+{
+	// SCORM beenden
+	if (g_lmsConnected)
+	{
+		setComplete();
+	}
+}
+</script>
+
+<!--  BEGIN Browser History required section -->
+<!--script src="history/history.js" language="javascript"></script-->
+<!--  END Browser History required section -->
+
+<style>
+body { margin: 0px; overflow: hidden; color:#FFFFFF }
+</style>
+<script language="JavaScript" type="text/javascript">
+<!--
+// -----------------------------------------------------------------------------
+// Globals
+// Major version of Flash required
+var requiredMajorVersion = 10;
+// Minor version of Flash required
+var requiredMinorVersion = 0;
+// Minor version of Flash required
+var requiredRevision = 32;
+// -----------------------------------------------------------------------------
+// -->
+</script>
+</head>
+
+<body scroll="no" onload="DoDocLoaded()" onbeforeunload="DoBeforeDocUnload()" onunload="DoDocUnload()">
+<script language="JavaScript" type="text/javascript">
+<!--
+// Version check for the Flash Player that has the ability to start Player Product Install (6.0r65)
+var hasProductInstall = DetectFlashVer(6, 0, 65);
+
+// Version check based upon the values defined in globals
+var hasRequestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+
+if ( hasProductInstall && !hasRequestedVersion ) {
+	// DO NOT MODIFY THE FOLLOWING FOUR LINES
+	// Location visited after installation is complete if installation is required
+	var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
+	var MMredirectURL = window.location;
+    document.title = document.title.slice(0, 47) + " - Flash Player Installation";
+    var MMdoctitle = document.title;
+
+	AC_FL_RunContent(
+		"src", "playerProductInstall",
+		"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+"",
+		"width", "976",
+		"height", "548",
+		"align", "middle",
+		"id", "Banshee",
+		"quality", "high",
+		"bgcolor", "#FFFFFF",
+		"name", "Banshee",
+		"allowScriptAccess","sameDomain",
+		"type", "application/x-shockwave-flash",
+		"pluginspage", "http://www.adobe.com/go/getflashplayer"
+	);
+} else if (hasRequestedVersion) {
+	// if we've detected an acceptable version
+	// embed the Flash Content SWF when all tests are passed
+	AC_FL_RunContent(
+			"flashVars", "StartPage=0&Verbose=0&StageW=976&StageH=548",
+			"allowFullscreen", "true",
+			"src", "../Banshee",
+			"width", "976",
+			"height", "548",
+			"align", "middle",
+			"id", "Banshee",
+			"quality", "high",
+			"bgcolor", "#FFFFFF",
+			"name", "Banshee",
+			"allowScriptAccess","sameDomain",
+			"type", "application/x-shockwave-flash",
+			"pluginspage", "http://www.adobe.com/go/getflashplayer"
+	);
+  } else {  // flash is too old or we can't detect the plugin
+    var alternateContent = 'Alternate HTML content should be placed here. '
+  	+ 'This content requires the Adobe Flash Player. '
+   	+ '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
+    document.write(alternateContent);  // insert non-flash content
+  }
+// -->
+</script>
+<noscript>
+  	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+			id="Banshee" width="976" height="548"
+			codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
+			<param name="movie" value="../Banshee.swf" />
+			<param name="quality" value="high" />
+			<param name="bgcolor" value="#FFFFFF" />
+			<param name="allowScriptAccess" value="sameDomain" />
+			<param name='flashVars' value='StartPage=0&Verbose=0&StageW=976&StageH=548'/>
+			<embed src="../Banshee.swf" quality="high" bgcolor="#FFFFFF"
+				width="976" height="548" name="Banshee" align="middle"
+				play="true"
+				loop="false"
+				quality="high"
+				allowScriptAccess="sameDomain"
+				type="application/x-shockwave-flash"
+				pluginspage="http://www.adobe.com/go/getflashplayer">
+			</embed>
+	</object>
+</noscript>
+</body>
+</html>
