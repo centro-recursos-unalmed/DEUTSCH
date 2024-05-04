@@ -1,0 +1,4 @@
+[autorun]
+open=shelexec .\index.html
+ICON=Aspekte 3.ico
+label=Aspekte 3

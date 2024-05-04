@@ -1,0 +1,16 @@
+Sie können die Anwendung auch durch Doppelklick auf die Datei index.html starten.
+
+
+Die Testblätter und die Hörtexte für das Goethe-Zertifikat C1 finden Sie in den Ordnern:
+
+Uebungstest Goethe-Zertifikat C1/Hoertexte
+
+Uebungstest Goethe-Zertifikat C1/Testblaetter
+
+
+
+Die Testblätter und die Hörtexte für die TELC Deutsch C1-Prüfung finden Sie in den Ordnern:
+
+Uebungstest TELC Deutsch C1/Hoertexte
+
+Uebungstest TELC Deutsch C1/Testblaetter
