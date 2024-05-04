@@ -1,0 +1,13 @@
+Sie können die Anwendung auch durch Doppelklick auf die Datei index.html starten.
+
+
+Die Testblätter und die Hörtexte für das Goethe-Zertifikat B2 finden Sie in den Ordnern:
+
+Uebungen zum Goethe-Zertifikat B2/Hoertexte
+Uebungen zum Goethe-Zertifikat B2/Testblaetter
+
+
+Die Testblätter und die Hörtexte für das TELC-Zertifikat Deutsch Plus B2 finden Sie in den Ordnern:
+
+Uebungen zum TELC-Zertifikat Deutsch Plus B2/Hoertexte
+Uebungen zum TELC-Zertifikat Deutsch Plus B2/Testblaetter

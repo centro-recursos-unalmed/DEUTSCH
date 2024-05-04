@@ -1,0 +1,4 @@
+[autorun]
+open=shelexec .\index.html
+ICON=Aspekte 2.ico
+label=Aspekte 2
