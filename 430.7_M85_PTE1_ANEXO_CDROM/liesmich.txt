@@ -1,0 +1,49 @@
+Empfehlung: 
+
+Der OptimalA1 Wortschatz-Audiotrainer wurde für die Darstellung durch einen Webbrowser entwickelt. Für eine optimale Wiedergabe empfehlen wir Ihnen, Mozilla Firefox oder Opera zu benutzen.
+
+
+Um Probleme beim Abspielen von MP3-Dateien zu vermeiden, sollte
+
+ - die Ausführung aktiver Inhalte in Dateien auf dem lokalen Rechner
+ - die Ausführung aktiver Inhalte von CDs auf dem lokalen Rechner
+
+in den Einstellungen des Webbrowsers aktiviert sein.
+
+Noch ein Hinweis:
+
+Sie können das Programm auch direkt durch Klicken auf die Datei "index.html" starten.
+
+Wenn Sie die MP3-Dateien auf ein anderes Medium überspielen wollen, finden Sie diese in folgendem Ordner: 
+"MP3 Dateien".
+
+Die PDF-Dateien zum Ausdrucken finden Sie in dem Ordner: 
+"PDF zum Ausdrucken".
+
++++
+
+Und hier noch mal die Systemvoraussetzungen:
+
+Multimedia-PC
+Windows 2000, XP, Vista, Windows 7
+
+Webbrowser: 
+
+- Mozilla Firefox ab 2.0.
+- Opera ab 8.0.
+- Internet Explorer ab 7.0.
+
+Apple Macintosh
+Mac OS X
+
+Webbrowser
+- Mozilla Firefox ab 2.0.
+- Safari ab 2.0.
+- Opera ab 8.0.
+
+Acrobat Reader ab 5.0
+
+Eine aktuelle Software bzw. ein Browser PlugIn zum Abspielen von MP3-Dateien.
+
+
+
